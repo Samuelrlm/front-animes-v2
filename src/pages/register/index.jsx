@@ -2,16 +2,17 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import instance from '@/instance/api';
 import { toast } from 'react-toastify';
 
-export default function Login() {
+export default function Register() {
   const router = useRouter();
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
     password: '',
   });
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -24,21 +25,18 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
     setLoading(true);
 
     try {
-      const response = await instance.post('/login', formData)
+        const response = await instance.post('/users/register', formData)
 
-      localStorage.setItem('token', response.data.accessToken)
-
-      toast.success("Login realizado com sucesso")
-      router.push('/animes')
+        toast.success("Cadastro realizado com sucesso")
+        router.push('/')
     } catch (err) {
-      console.log(err)
-      toast.error("Erro ao fazer login")
+      console.log(err);
+      toast.error("Erro ao realizar cadastro")
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -47,17 +45,27 @@ export default function Login() {
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-light text-gray-800 mb-2">Bem-vindo de volta</h1>
-            <p className="text-gray-500 text-sm">Entre com suas credenciais para continuar</p>
+            <h1 className="text-2xl font-light text-gray-800 mb-2">Criar Conta</h1>
+            <p className="text-gray-500 text-sm">Preencha os dados abaixo para começar</p>
           </div>
-          
-          {error && (
-            <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-r">
-              <p className="text-sm">{error}</p>
-            </div>
-          )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <label htmlFor="name" className="text-sm font-medium text-gray-700">
+                Nome Completo
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="w-full text-black placeholder:text-[#cccccc] px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                placeholder="Digite seu nome completo"
+              />
+            </div>
+
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium text-gray-700">
                 Email
@@ -69,7 +77,7 @@ export default function Login() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full placeholder:text-[#cccccc] text-black px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                className="w-full text-black placeholder:text-[#cccccc] px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 placeholder="seu@email.com"
               />
             </div>
@@ -90,20 +98,23 @@ export default function Login() {
               />
             </div>
 
-            <div className="flex items-center justify-between text-sm">
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="remember"
-                  className="h-4 w-4 text-blue-500 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label htmlFor="remember" className="ml-2 text-gray-600">
-                  Lembrar-me
-                </label>
-              </div>
-              <a href="#" className="text-blue-500 hover:text-blue-600 transition-colors">
-                Esqueceu a senha?
-              </a>
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="terms"
+                required
+                className="h-4 w-4 text-blue-500 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <label htmlFor="terms" className="ml-2 text-sm text-gray-600">
+                Eu concordo com os{' '}
+                <a href="#" className="text-blue-500 hover:text-blue-600">
+                  Termos de Uso
+                </a>{' '}
+                e{' '}
+                <a href="#" className="text-blue-500 hover:text-blue-600">
+                  Política de Privacidade
+                </a>
+              </label>
             </div>
 
             <button
@@ -117,18 +128,18 @@ export default function Login() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  Entrando...
+                  Criando conta...
                 </span>
-              ) : 'Entrar'}
+              ) : 'Criar Conta'}
             </button>
           </form>
 
           <div className="mt-8 text-center">
             <p className="text-sm text-gray-600">
-              Não tem uma conta?{' '}
-              <a href="#" className="text-blue-500 hover:text-blue-600 font-medium transition-colors">
-                Criar conta
-              </a>
+              Já tem uma conta?{' '}
+              <Link href="/" className="text-blue-500 hover:text-blue-600 font-medium transition-colors">
+                Fazer login
+              </Link>
             </p>
           </div>
         </div>
