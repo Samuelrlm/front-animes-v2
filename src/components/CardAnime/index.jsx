@@ -19,7 +19,7 @@ export default function CardAnime({ anime }) {
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-200">
+        <div className="bg-white w-[350px] rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-200">
             {/* Imagem do Anime */}
             <div className="relative h-48 bg-gray-100">
                 {anime.image && !isImageError ? (

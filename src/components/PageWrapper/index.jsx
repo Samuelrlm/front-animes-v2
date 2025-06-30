@@ -15,9 +15,12 @@ export default function PageWrapper({ children }) {
 
         async function validateToken(){
             try {
-                await instance.get('/heartbeat')
+               const response = await instance.get('/profile')
+
+               localStorage.setItem('user', JSON.stringify(response.data))
             } catch (error) {
                 localStorage.removeItem('token')
+                localStorage.removeItem('user')
                 router.push('/')
             }
         }
