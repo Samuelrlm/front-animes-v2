@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import ModalDetailsAnime from '../ModalDetailsAnime';
 
 export default function CardAnime({ anime }) {
     const [isImageError, setIsImageError] = useState(false);
+    const [openModal, setOpenModal] = useState(false)
 
     const handleImageError = () => {
         setIsImageError(true);
@@ -100,7 +102,9 @@ export default function CardAnime({ anime }) {
 
                 {/* Botões de Ação */}
                 <div className="flex space-x-2 mt-4">
-                    <button className="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2 px-3 rounded-md transition-colors duration-200">
+                    <button
+                        onClick={() => setOpenModal(true)}
+                        className="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2 px-3 rounded-md transition-colors duration-200">
                         Ver Detalhes
                     </button>
                     <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 p-2 rounded-md transition-colors duration-200">
@@ -110,6 +114,11 @@ export default function CardAnime({ anime }) {
                     </button>
                 </div>
             </div>
+            <ModalDetailsAnime
+                isOpen={openModal}
+                onClose={() => setOpenModal(false)}
+                anime={anime}
+            />
         </div>
     );
 }

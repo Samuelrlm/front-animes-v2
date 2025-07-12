@@ -42,16 +42,17 @@ export default function Animes() {
     }, [])
 
     return (
-        <PageWrapper>
+        <PageWrapper 
+            title="Animes"
+            description="Gerencie seus animes"
+        >
             {
                 user?.role == "admin" && (
-                    <div className="w-full flex justify-end">
                         <button
                             onClick={() => setOpenModal(true)}
-                            className="bg-blue-500 text-white px-4 py-2 rounded-md">
+                            className="absolute right-8 top-8 bg-blue-500 text-white px-4 py-2 rounded-md">
                             Adicionar Anime
                         </button>
-                    </div>
                 )
             }
             <div className="flex flex-wrap gap-4">
